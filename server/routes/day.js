@@ -18,7 +18,7 @@ e.getAllDays = function(req, res) {
     })
     .exec(function(err, days) {
         if(err) res.send(err);
-        res.json(days);
+        res.status(200).json(days);
     });
 };
 
@@ -45,7 +45,7 @@ e.getDay = function(req, res) {
     })
     .exec(function(err, day) {
         if(err) res.send(err);
-        res.json(day);
+        res.status(200).json(day);
     });
 };
 
@@ -94,7 +94,7 @@ e.createDay = function(req, res) {
         if(err) return console.err(err);
     });
 
-    res.json({ message: 'Workout created' });
+    res.status(201).json({ message: 'Workout created' });
 };             
 
 module.exports = e;

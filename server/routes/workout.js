@@ -11,7 +11,7 @@ e.getAllWorkouts = function(req, res) {
     .populate('exercises')
     .exec(function(err, workout) {
         if(err) res.send(err);
-        res.json(workout);
+        res.status(200).json(workout);
     });
 };
 
@@ -26,7 +26,7 @@ e.getWorkout = function(req, res) {
     .populate('exercises')
     .exec(function(err, workout) {
         if(err) res.send(err);
-        res.json(workout);
+        res.status(200).json(workout);
     });
 };
 
@@ -54,7 +54,7 @@ e.createWorkout = function(req, res) {
         if(err) return console.error(err);
     });
 
-    res.json({ message: 'Workout ' + workout.name + ' created!' });
+    res.status(201).json({ message: 'Workout ' + workout.name + ' created!' });
 }; 
 
 module.exports = e;
