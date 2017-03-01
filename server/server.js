@@ -5,6 +5,7 @@ let express = require('express');
 let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 let morgan = require('morgan');
+let path = require('path');
 
 // set port
 let port = process.env.PORT || 8080;
@@ -13,7 +14,9 @@ let port = process.env.PORT || 8080;
 let app = express();
 
 // configure app
-app.use(express.static(__dirname + '/web/public'));
+//app.use(express.static(__dirname + '/web/public'));
+app.use(express.static(__dirname + '/../app/dist'));
+//app.use(express.static(__dirname + '/test_public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));  
@@ -31,10 +34,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/workout_tracker', function(err) {
 });
 
 // routes
-var dayRouter = require('./routes/day');
-var workoutRouter = require('./routes/workout');
+let dayRouter = require('./routes/day');
+let workoutRouter = require('./routes/workout');
 
-var apiRouter = express.Router();
+let apiRouter = express.Router();
 
 apiRouter.use(function(req, res, next) {
     console.log('apiRouter doing its job');
@@ -59,7 +62,21 @@ apiRouter.route('/workouts')
 apiRouter.route('/workouts/:workout_id')
     .get(workoutRouter.getWorkout);
 
+// to deliver react app
+let appRouter = express.Router();
+
+appRouter.use(function(req, res, next) {
+    console.log('appRouter called');
+    next();
+});
+
+appRouter.route('/')
+    .get(function(req, res) {
+        res.sendFile(path.join(__dirname, '../app/dist', 'index.html'));
+    });
+
 app.use('/api', apiRouter);
+app.use('/', appRouter);
 
 app.listen(port);
 console.log('Magic happens on port ' + port);
