@@ -20,6 +20,7 @@ e.getAllWorkouts = function(req, res) {
  * @param {number} workout_id - the _id in the URL, provided by Express.
  */
 e.getWorkout = function(req, res) {
+    let workout_id = req.params.workout_id;
     Workout.findOne({
         '_id': workout_id,
     })
@@ -46,7 +47,7 @@ e.createWorkout = function(req, res) {
             if(err) return console.error(err);
         });
 
-        workout.exercises.push(currEx._id);
+        workout.exercises.push(exercise._id);
     }
 
     // and save everything to the db
