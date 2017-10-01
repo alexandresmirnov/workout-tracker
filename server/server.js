@@ -6,6 +6,8 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 let morgan = require('morgan');
 let path = require('path');
+let mustache = require('mustache');
+let request = require('request');
 
 // set port
 let port = process.env.PORT || 8080;
@@ -19,10 +21,13 @@ app.use(express.static(__dirname + '/../app/dist'));
 //app.use(express.static(__dirname + '/test_public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(morgan('dev'));  
+app.use(morgan('dev'));
+
+app.set('views', path.join(__dirname, './../app/views'));
 
 // config templating
 app.set('view engine', 'pug');
+//app.set('view engine', 'mustache');
 
 // mongodb
 mongoose.connect('mongodb://127.0.0.1:27017/workout_tracker', function(err) {
@@ -74,6 +79,7 @@ appRouter.route('/')
     .get(function(req, res) {
         res.sendFile(path.join(__dirname, '../app/dist', 'index.html'));
     });
+
 
 app.use('/api', apiRouter);
 app.use('/', appRouter);

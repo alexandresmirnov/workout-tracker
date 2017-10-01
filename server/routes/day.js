@@ -2,10 +2,12 @@ let Day = require('./../models/day');
 let Workout = require('./../models/workout');
 let Exercise = require('./../models/exercise');
 
+let mustache = require('mustache');
+
 // this will be the exports object
 let e = {};
 
-/** 
+/**
  * Returns all Day documents.
  */
 e.getAllDays = function(req, res) {
@@ -19,6 +21,64 @@ e.getAllDays = function(req, res) {
     .exec(function(err, days) {
         if(err) res.send(err);
         res.status(200).json(days);
+    });
+};
+
+e.returnAllDays = function() {
+    let testing;
+    Day.find()
+    .populate({
+        path: 'workouts',
+        populate: {
+            path: 'exercises',
+        }
+    })
+    .exec(function(err, days) {
+        if(err) {
+            console.log(err);
+        }
+        else {
+            testing = "TESTINGGDSKFJLDSF";
+            //console.log("days: ", days);
+        }
+    });
+}
+
+e.test = function() {
+    return "TEST";
+}
+
+e.showAllDays = function(req, res) {
+    console.log('show all days called');
+    Day.find()
+    .populate({
+        path: 'workouts',
+        populate: {
+            path: 'exercises',
+        }
+    })
+    .exec(function(err, days) {
+        if(err) res.send(err);
+
+        var view = {
+          title: "Joe",
+          calc: function () {
+            return 2 + 4;
+          }
+        };
+
+        //var output = mustache.render("{{title}} spends {{calc}}", view);
+        //res.send(output);
+
+        var output = mustache.render('<ul>{{#.}}<li>Date: {{date}}{{.}}</li>{{/.}}</ul>',days);
+
+
+        res.send(output);
+
+        //console.log(days[0]);
+        //res.render('index', {title: "title", message: "message"});
+        //res.render('days', days);
+        //res.status(200).json(days);
     });
 };
 
@@ -95,6 +155,6 @@ e.createDay = function(req, res) {
     });
 
     res.status(201).json({ message: 'Workout created' });
-};             
+};
 
 module.exports = e;

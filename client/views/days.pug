@@ -1,0 +1,18 @@
+html
+  body
+    h1= TEST
+    ul
+      each day in days
+        li
+          ul
+            li= day.date
+            ul
+              each workout in day.workouts
+                li= workout.name
+                  ul
+                    each exercise in workout.exercises
+                      li= exercise.name
+                      ul
+                        each set in exercise.sets
+                          li= 'Reps: ' + set.reps
+                          li= 'Weight: ' + set.weight
