@@ -1,0 +1,12 @@
+.exercise-name {
+    margin-bottom: 0px;
+}
+
+.main {
+    margin-top: 15px;
+}
+
+.hidden {
+    visibility: hidden;
+    display: none;
+}

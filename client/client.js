@@ -8,6 +8,8 @@ let morgan = require('morgan');
 let path = require('path');
 let mustache = require('mustache');
 let request = require('request');
+let moment = require('moment');
+
 
 // set port
 let port = process.env.PORT || 8081;
@@ -18,6 +20,7 @@ let app = express();
 // configure app
 //app.use(express.static(__dirname + '/web/public'));
 app.use(express.static(__dirname + '/../app/dist'));
+app.use('/view', express.static('./views/'));
 //app.use(express.static(__dirname + '/test_public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -31,7 +34,7 @@ app.set('view engine', 'pug');
 // view stuff router
 let viewRouter = express.Router();
 
-var days = 'http://localhost:8080/api/days';
+let days = 'http://localhost:8080/api/days';
 
 viewRouter.route('/days')
     .get(function(req, res) {
@@ -98,6 +101,28 @@ viewRouter.route('/days/:day_date')
         );
 
 
+    });
+
+viewRouter.route('/overview')
+    .get(function(req, res) {
+
+        request.get(
+            {
+                url: days,
+                json: true,
+                //headers: {'User-Agent': 'request'}
+            }, (err, response, data) => {
+                if (err) {
+                    console.log('Error:', err);
+                }
+                else if (res.statusCode !== 200) {
+                    console.log('Status:', response.statusCode);
+                }
+                else {
+                    res.render('overview', {days: data});
+                }
+            }
+        );
     });
 
 app.use('/view', viewRouter);

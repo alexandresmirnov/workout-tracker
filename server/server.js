@@ -58,7 +58,9 @@ apiRouter.route('/days')
     .get(dayRouter.getAllDays)
     .post(dayRouter.createDay);
 apiRouter.route('/days/:day_date')
-    .get(dayRouter.getDay);
+    .get(dayRouter.getDay)
+    .delete(dayRouter.deleteDay)
+    .put(dayRouter.putDay);
 
 // workouts
 apiRouter.route('/workouts')
