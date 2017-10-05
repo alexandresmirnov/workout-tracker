@@ -80,7 +80,7 @@ e.putDay = function(req, res) {
     let d = new Date(req.params.day_date);
     day.date =  d;
 
-    let nextDay = new Date();
+    let nextDay = new Date(d);
     nextDay.setDate(d.getDate() + 1);
 
     Day.findOneAndRemove({
@@ -89,7 +89,7 @@ e.putDay = function(req, res) {
             '$lt': nextDay,
         }
     }, function(){
-        console.log('deleted existing day')
+        console.log('deleted existing day');
     });
 
     // loop through workouts
