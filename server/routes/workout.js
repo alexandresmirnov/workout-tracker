@@ -16,13 +16,12 @@ e.getAllWorkouts = function(req, res) {
 };
 
 /**
- * Returns a specific Workout based on workout_id in URL
- * @param {number} workout_id - the _id in the URL, provided by Express.
+ * Returns Workouts based on workout_name in URL
  */
-e.getWorkout = function(req, res) {
-    let workout_id = req.params.workout_id;
-    Workout.findOne({
-        '_id': workout_id,
+e.getWorkouts = function(req, res) {
+    let workout_name = req.params.workout_name;
+    Workout.find({
+        'name': workout_name,
     })
     .populate('exercises')
     .exec(function(err, workout) {
@@ -36,26 +35,27 @@ e.getWorkout = function(req, res) {
  */
 e.createWorkout = function(req, res) {
 	let workout = new Workout();
-	workout.date = Date(); // TODO: change this to reference to container Day object
-    workout.name = req.body.name;
+	workout.date = req.body.date;
+  workout.name = req.body.name;
+  workout.title = req.body.title;
 
-    for(let reqExercise of req.body.exercises){
-        // create exercise object, save into database, stick objectid into workout.exercises
-        let exercise = new Exercise(reqExercise);
+  for(let reqExercise of req.body.exercises){
+      // create exercise object, save into database, stick objectid into workout.exercises
+      let exercise = new Exercise(reqExercise);
 
-        exercise.save(function(err, e){
-            if(err) return console.error(err);
-        });
+      exercise.save(function(err, e){
+          if(err) return console.error(err);
+      });
 
-        workout.exercises.push(exercise._id);
-    }
+      workout.exercises.push(exercise._id);
+  }
 
-    // and save everything to the db
-    workout.save(function(err, workout){
-        if(err) return console.error(err);
-    });
+  // and save everything to the db
+  workout.save(function(err, workout){
+      if(err) return console.error(err);
+  });
 
-    res.status(201).json({ message: 'Workout ' + workout.name + ' created!' });
-}; 
+  res.status(201).json({ message: 'Workout ' + workout.name + ' created!' });
+};
 
 module.exports = e;

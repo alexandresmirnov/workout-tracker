@@ -97,14 +97,15 @@ e.putDay = function(req, res) {
         let workout = new Workout({
             date: d,
             name: reqWorkout.name,
+            title: reqWorkout.title,
             exercises: [],
         });
 
         for(let reqExercise of reqWorkout.exercises){
             let exercise = new Exercise({
                 date: d,
-                id: reqExercise.id,
                 name: reqExercise.name,
+                title: reqExercise.title,
                 sets: [],
             });
 
@@ -139,6 +140,7 @@ e.putDay = function(req, res) {
  * Creates a Day document (with current date) and adds it to database.
  */
 e.createDay = function(req, res) {
+  console.log('createDay called');
 	let day = new Day();
     day.date = Date(); // TODO: let client do this
 
@@ -147,14 +149,15 @@ e.createDay = function(req, res) {
         let workout = new Workout({
             date: Date(),
             name: reqWorkout.name,
+            title: reqWorkout.title,
             exercises: [],
         });
 
         for(let reqExercise of reqWorkout.exercises){
             let exercise = new Exercise({
                 date: Date(),
-                id: reqExercise.id,
                 name: reqExercise.name,
+                title: reqExercise.title,
                 sets: [],
             });
 

@@ -41,11 +41,13 @@ mongoose.connect('mongodb://127.0.0.1:27017/workout_tracker', function(err) {
 // routes
 let dayRouter = require('./routes/day');
 let workoutRouter = require('./routes/workout');
+let exerciseRouter = require('./routes/exercise');
 
 let apiRouter = express.Router();
 
 apiRouter.use(function(req, res, next) {
     console.log('apiRouter doing its job');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:8082');
     next();
 });
 
@@ -55,36 +57,28 @@ apiRouter.get('/test', function(req, res) {
 
 // days
 apiRouter.route('/days')
-    .get(dayRouter.getAllDays)
-    .post(dayRouter.createDay);
+  .get(dayRouter.getAllDays)
+  .post(dayRouter.createDay);
 apiRouter.route('/days/:day_date')
-    .get(dayRouter.getDay)
-    .delete(dayRouter.deleteDay)
-    .put(dayRouter.putDay);
+  .get(dayRouter.getDay)
+  .delete(dayRouter.deleteDay)
+  .put(dayRouter.putDay);
 
 // workouts
-apiRouter.route('/workouts')
-    .get(workoutRouter.getAllWorkouts)
-    .post(workoutRouter.createWorkout);
-apiRouter.route('/workouts/:workout_id')
-    .get(workoutRouter.getWorkout);
+apiRouter.route('/workouts/all')
+  .get(workoutRouter.getAllWorkouts);
+apiRouter.route('/workouts/:workout_name')
+  .get(workoutRouter.getWorkouts);
+apiRouter.route('/workouts/new/')
+  .post(workoutRouter.createWorkout);
 
-// to deliver react app
-let appRouter = express.Router();
-
-appRouter.use(function(req, res, next) {
-    console.log('appRouter called');
-    next();
-});
-
-appRouter.route('/')
-    .get(function(req, res) {
-        res.sendFile(path.join(__dirname, '../app/dist', 'index.html'));
-    });
-
+// exercises
+apiRouter.route('/exercises')
+  .get(exerciseRouter.getAllExercises)
+apiRouter.route('/exercises/:exercise_name')
+  .get(exerciseRouter.getExercises);
 
 app.use('/api', apiRouter);
-app.use('/', appRouter);
 
 app.listen(port);
 console.log('Magic happens on port ' + port);

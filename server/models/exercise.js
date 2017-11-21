@@ -3,9 +3,10 @@ var Schema = mongoose.Schema;
 
 var ExerciseSchema = new Schema({
     // todo: tag: e.g. upper body, etc.
-    id: String, // identification, nice to be able to change the name later (locale, e.g.)
-    date: Date,
-    name: String, // possibly add an ID later, look into if that'd make it faster
+    name: String, // identification, nice to be able to change the name later (locale, e.g.)
+    date: String,
+    title: String, // possibly add an ID later, look into if that'd make it faster
+    //TODO change to lookup by name to keep titles consistent
     sets: [{
         reps: Number,
         weight: Number,
