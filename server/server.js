@@ -56,27 +56,38 @@ apiRouter.get('/test', function(req, res) {
 });
 
 // days
-apiRouter.route('/days')
-  .get(dayRouter.getAllDays)
-  .post(dayRouter.createDay);
+//apiRouter.route('/days')
+//  .get(dayRouter.getAllDays);
+//  .post(dayRouter.createDay);
 apiRouter.route('/days/:day_date')
-  .get(dayRouter.getDay)
-  .delete(dayRouter.deleteDay)
-  .put(dayRouter.putDay);
+  .get(dayRouter.getDay);
+  //.put(dayRouter.putDay);
 
 // workouts
 apiRouter.route('/workouts/all')
   .get(workoutRouter.getAllWorkouts);
-apiRouter.route('/workouts/:workout_name')
-  .get(workoutRouter.getWorkouts);
+
+apiRouter.route('/workouts/name/:workout_name')
+  .get(workoutRouter.getWorkoutsByName);
+
+apiRouter.route('/workouts/id/:workout_id')
+  .get(workoutRouter.getWorkoutById)
+  .put(workoutRouter.putWorkout)
+  .delete(workoutRouter.deleteWorkout);
+
 apiRouter.route('/workouts/new/')
   .post(workoutRouter.createWorkout);
 
+
 // exercises
-apiRouter.route('/exercises')
-  .get(exerciseRouter.getAllExercises)
-apiRouter.route('/exercises/:exercise_name')
-  .get(exerciseRouter.getExercises);
+apiRouter.route('/exercises/all')
+  .get(exerciseRouter.getAllExercises);
+
+apiRouter.route('/exercises/name/:exercise_name')
+  .get(exerciseRouter.getExercisesByName);
+
+apiRouter.route('/exercises/id/:exercise_id')
+  .get(exerciseRouter.getExerciseById);
 
 app.use('/api', apiRouter);
 
