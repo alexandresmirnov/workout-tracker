@@ -75,6 +75,9 @@ apiRouter.route('/workouts/id/:workout_id')
   .put(workoutRouter.putWorkout)
   .delete(workoutRouter.deleteWorkout);
 
+apiRouter.route('/workouts/date/:workout_date')
+  .get(workoutRouter.getWorkoutByDate);
+
 apiRouter.route('/workouts/new/')
   .post(workoutRouter.createWorkout);
 

@@ -64,6 +64,22 @@ e.createWorkout = function(req, res) {
   res.status(201).json({ message: 'Workout ' + workout.name + ' created with id: ' + workout._id + '!' });
 };
 
+
+/*
+ * Returns Workout based on workout_date in URL
+ * route: /workouts/date/:workout_date
+ */
+e.getWorkoutByDate = function(req, res) {
+    Workout.findOne({
+        'date': req.params.workout_date
+    })
+    .populate('exercises')
+    .exec(function(err, workout) {
+        if(err) res.send(err);
+        res.status(200).json(workout);
+    });
+};
+
 /*
  * Returns Workout based on workout_id in URL
  * route: /workouts/id/:workout_id
