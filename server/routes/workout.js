@@ -35,13 +35,13 @@ e.getMetaWorkouts = function(req, res) {
 };
 
 /*
- * Returns Workouts based on workout_name in URL
- * route: /workouts/name/:workout_name
+ * Returns Workouts based on workout_type in URL
+ * route: /workouts/name/:workout_type
  */
-e.getWorkoutsByName = function(req, res) {
-    let workout_name = req.params.workout_name;
+e.getWorkoutsByType = function(req, res) {
+    let workout_type = req.params.workout_type;
     Workout.find({
-        'name': workout_name,
+        'type': workout_type,
     })
     .populate('exercises')
     .exec(function(err, workout) {
@@ -57,8 +57,8 @@ e.getWorkoutsByName = function(req, res) {
 e.createWorkout = function(req, res) {
 	let workout = new Workout();
 	workout.date = req.body.date;
+  workout.type = req.body.type;
   workout.name = req.body.name;
-  workout.title = req.body.title;
 
   for(let reqExercise of req.body.exercises){
       // create exercise object, save into database, stick objectid into workout.exercises

@@ -16,12 +16,12 @@ e.getAllExercises = function(req, res) {
 
 /*
  * Returns Exercises based on exercise_name in URL
- * route: /exercises/:exercise_name
+ * route: /exercises/:exercise_type
  */
-e.getExercisesByName = function(req, res) {
-    let exercise_name = req.params.exercise_name;
+e.getExercisesByType = function(req, res) {
+    let exercise_name = req.params.exercise_type;
     Exercise.find({
-        'name': exercise_name,
+        'type': exercise_type,
     })
     .populate('sets')
     .exec(function(err, exercise) {

@@ -70,8 +70,8 @@ apiRouter.route('/workouts/all')
 apiRouter.route('/workouts/meta')
   .get(workoutRouter.getMetaWorkouts);
 
-apiRouter.route('/workouts/name/:workout_name')
-  .get(workoutRouter.getWorkoutsByName);
+apiRouter.route('/workouts/type/:workout_type')
+  .get(workoutRouter.getWorkoutsByType);
 
 apiRouter.route('/workouts/id/:workout_id')
   .get(workoutRouter.getWorkoutById)
@@ -89,8 +89,8 @@ apiRouter.route('/workouts/new/')
 apiRouter.route('/exercises/all')
   .get(exerciseRouter.getAllExercises);
 
-apiRouter.route('/exercises/name/:exercise_name')
-  .get(exerciseRouter.getExercisesByName);
+apiRouter.route('/exercises/type/:exercise_type')
+  .get(exerciseRouter.getExercisesByType);
 
 apiRouter.route('/exercises/id/:exercise_id')
   .get(exerciseRouter.getExerciseById);

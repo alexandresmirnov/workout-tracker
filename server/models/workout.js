@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 var WorkoutSchema = new Schema({
     date: String,
-    name: String,
-    title: String, //TODO change to lookup by name to keep titles consistent
+    type: String, //group identifier
+    name: String, //TODO change to lookup by type to keep titles consistent
     exercises: [{
         type: Schema.Types.ObjectId,
         ref: 'Exercise',
