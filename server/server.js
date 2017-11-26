@@ -67,6 +67,9 @@ apiRouter.route('/days/:day_date')
 apiRouter.route('/workouts/all')
   .get(workoutRouter.getAllWorkouts);
 
+apiRouter.route('/workouts/meta')
+  .get(workoutRouter.getMetaWorkouts);
+
 apiRouter.route('/workouts/name/:workout_name')
   .get(workoutRouter.getWorkoutsByName);
 

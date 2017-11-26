@@ -8,7 +8,6 @@ let e = {};
  */
 e.getAllExercises = function(req, res) {
     Exercise.find()
-    .populate('sets')
     .exec(function(err, exercises) {
         if(err) res.send(err);
         res.status(200).json(exercises);

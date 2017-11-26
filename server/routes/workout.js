@@ -20,6 +20,21 @@ e.getAllWorkouts = function(req, res) {
 };
 
 /*
+ * Returns meta Workout documents (without populating exercises).
+ * route: /workouts/meta
+ */
+e.getMetaWorkouts = function(req, res) {
+    Workout.find()
+    .sort({
+        date: -1
+    })
+    .exec(function(err, workout) {
+        if(err) res.send(err);
+        res.status(200).json(workout);
+    });
+};
+
+/*
  * Returns Workouts based on workout_name in URL
  * route: /workouts/name/:workout_name
  */
