@@ -113,23 +113,28 @@ e.getWorkoutById = function(req, res) {
 /*
  * Modifies Workout document with supplied workout_id
  * route: /workouts/id/:workout_id
- * TODO: also delete children exercises
+ * note that this expects a full copy of workout with modified fields,
+ * not just a delta
+ * 'exercises' should also just be an array of _ids
  */
 e.putWorkout = function(req, res) {
-  Workout.findOneAndRemove({
-      '_id': req.params.workout_id
-  }, function(){
-      console.log('deleted existing workout');
-  });
+  let workout = new Workout();
+  workout.date = req.body.date;
+  workout.type = req.body.type;
+  workout.name = req.body.name;
+  workout.exercises = req.body.exercises;
 
-  e.createWorkout(req, res);
+  Workout.update({ _id: req.params.workout_id }, {date: workout.date, type: workout.type, name: workout.name, exercises: workout.exercises}, {overwrite: false}, function (err, raw) {
+    //if (err) return handleError(err);
+    //console.log('The raw response from Mongo was ', raw);
+    res.status(201).json({ message: 'Workout ' + workout.name + ' updated with id: ' + workout._id + '!' });
+  });
 };
 
 /*
  * Deletes Workout with supplied workout_id
  * route: /workouts/id/:workout_id
  */
-
 e.deleteWorkout = function(req, res) {
     Workout.findOneAndRemove({
         '_id': req.params.workout_id
